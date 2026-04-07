@@ -1,16 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.compilador.compilador.CompiladorController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.compilador.compilador.CompiladorController"
+            prefWidth="1100" prefHeight="750">
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+    <top>
+        <MenuBar>
+            <Menu text="Archivo">
+                <MenuItem text="Abrir archivo" onAction="#abrirArchivo"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Salir" onAction="#salir"/>
+            </Menu>
+        </MenuBar>
+    </top>
+
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <Label text="Editor KScript" styleClass="title-2" maxWidth="Infinity" alignment="center"/>
+
+            <TextArea fx:id="editorCodigo"
+                      VBox.vgrow="ALWAYS"
+                      prefHeight="480"
+                      style="-fx-font-family: 'Consolas'; -fx-font-size: 14px;"
+                      promptText="Escribe tu código KScript aquí..."/>
+
+            <HBox alignment="CENTER">
+                <Button text="▶  Compilar"
+                        styleClass="accent"
+                        onAction="#compilar"
+                        style="-fx-font-weight: bold;"/>
+            </HBox>
+
+            <Label text="Errores de compilación" styleClass="title-4"/>
+
+            <TextArea fx:id="panelErrores"
+                      prefHeight="150"
+                      editable="false"
+                      style="-fx-font-family: 'Consolas'; -fx-font-size: 13px;"
+                      promptText="Los errores aparecerán aquí..."/>
+        </VBox>
+    </center>
+
+</BorderPane>
