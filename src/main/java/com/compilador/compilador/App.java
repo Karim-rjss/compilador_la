@@ -1,7 +1,7 @@
 package com.compilador.compilador;
 
 import atlantafx.base.theme.Dracula;
-import atlantafx.base.theme.NordDark;
+import atlantafx.base.theme.NordLight;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,6 +16,10 @@ public class App extends Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("compilador-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1100, 750);
+
+        scene.getStylesheets().add(
+                App.class.getResource("/com/compilador/compilador/style.css").toExternalForm()
+        );
 
         stage.setTitle("KScript - Compilador");
         stage.setMinWidth(900);

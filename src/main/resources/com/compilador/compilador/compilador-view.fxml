@@ -3,11 +3,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
+<?import org.fxmisc.richtext.CodeArea?>
+
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.compilador.compilador.CompiladorController"
-            prefWidth="1100" prefHeight="750">
+            prefWidth="1100" prefHeight="750"
+            stylesheets="@style.css">
 
     <top>
         <MenuBar>
@@ -27,11 +30,10 @@
 
             <Label text="Editor KScript" styleClass="title-2" maxWidth="Infinity" alignment="center"/>
 
-            <TextArea fx:id="editorCodigo"
+            <CodeArea fx:id="editorCodigo"
                       VBox.vgrow="ALWAYS"
                       prefHeight="480"
-                      style="-fx-font-family: 'Consolas'; -fx-font-size: 14px;"
-                      promptText="Escribe tu código KScript aquí..."/>
+                      style="-fx-font-family: 'Consolas'; -fx-font-size: 14px;"/>
 
             <HBox alignment="CENTER">
                 <Button text="▶  Compilar"

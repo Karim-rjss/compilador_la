@@ -1,0 +1,21 @@
+.code-area {
+    -fx-background-color: #282a36;
+    -fx-text-fill: #f8f8f2;
+    -fx-border-color: #44475a;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8;
+}
+
+.code-area .content {
+    -fx-background-color: #282a36;
+}
+
+.code-area .text {
+    -fx-fill: #f8f8f2;
+}
+
+.code-area .keyword {
+    -fx-fill: #ff79c6;
+}
