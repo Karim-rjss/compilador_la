@@ -2,6 +2,7 @@ package com.compilador.compilador;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import org.fxmisc.richtext.CodeArea;
 import javafx.stage.FileChooser;
@@ -10,31 +11,14 @@ import java.io.File;
 
 public class CompiladorController {
 
-
-    @FXML private CodeArea editorCodigo;
-    @FXML private TextArea panelErrores;
-
-    @FXML
-    private void abrirArchivo() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Abrir archivo KScript");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Codigo de KScript", "*.txt")
-        );
-        File archivo = fileChooser.showOpenDialog(new Stage());
-        if (archivo != null) {
-            panelErrores.setText("Archivo cargado: " + archivo.getName());
-        }
-    }
-
-    public boolean aplicandoEstilo = false;
+    @FXML public CodeArea editorCodigo;
+    @FXML public TextArea panelErrores;
+    @FXML public TableView<String> tablaSimbolos;
 
     @FXML
     public void initialize() {
         editorCodigo.textProperty().addListener((obs, oldText, newText) -> {
-
             if (aplicandoEstilo) return;
-
             Platform.runLater(() -> {
                 aplicandoEstilo = true;
                 resaltar(newText);
@@ -42,6 +26,27 @@ public class CompiladorController {
             });
         });
     }
+
+    @FXML
+    public void abrirArchivo() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Abrir archivo KScript");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Codigo de KScript", "*.txt"));
+        File archivo = fileChooser.showOpenDialog(new Stage());
+        if (archivo != null) {
+            try {
+                String contenido = new String(
+                        java.nio.file.Files.readAllBytes(archivo.toPath())
+                );
+                editorCodigo.replaceText(contenido);
+                panelErrores.setText("Archivo cargado: " + archivo.getName());
+            } catch (Exception e) {
+                panelErrores.setText("Error al leer el archivo: " + e.getMessage());
+            }
+        }
+    }
+
+    public boolean aplicandoEstilo = false;
 
     public String[] palabraReservadas = {
             "inicio","fin","entero","flotante","cadena","si",
@@ -78,12 +83,14 @@ public class CompiladorController {
     }
 
     @FXML
-    private void compilar() {
+    public void compilar() {
         panelErrores.setText("Compilando...");
     }
 
     @FXML
-    private void salir() {
+    public void salir() {
         System.exit(0);
     }
+
+
 }

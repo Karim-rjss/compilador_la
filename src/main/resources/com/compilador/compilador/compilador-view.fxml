@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
 <?import org.fxmisc.richtext.CodeArea?>
-
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.compilador.compilador.CompiladorController"
             prefWidth="1100" prefHeight="750"
             stylesheets="@style.css">
-
     <top>
         <MenuBar>
             <Menu text="Archivo">
@@ -23,33 +20,49 @@
     </top>
 
     <center>
-        <VBox spacing="10">
+        <HBox spacing="10">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
 
-            <Label text="Editor KScript" styleClass="title-2" maxWidth="Infinity" alignment="center"/>
+            <VBox spacing="10" HBox.hgrow="ALWAYS">
+                <Label text="Editor KScript" styleClass="title-2"
+                       maxWidth="Infinity" alignment="CENTER"/>
 
-            <CodeArea fx:id="editorCodigo"
-                      VBox.vgrow="ALWAYS"
-                      prefHeight="480"
-                      style="-fx-font-family: 'Consolas'; -fx-font-size: 14px;"/>
+                <CodeArea fx:id="editorCodigo"
+                          VBox.vgrow="ALWAYS"
+                          prefHeight="480"
+                          style="-fx-font-family: 'Consolas'; -fx-font-size: 14px;"/>
 
-            <HBox alignment="CENTER">
-                <Button text="▶  Compilar"
-                        styleClass="accent"
-                        onAction="#compilar"
-                        style="-fx-font-weight: bold;"/>
-            </HBox>
+                <HBox alignment="CENTER">
+                    <Button text="▶  Compilar"
+                            styleClass="accent"
+                            onAction="#compilar"
+                            style="-fx-font-weight: bold;"/>
+                </HBox>
 
-            <Label text="Errores de compilación" styleClass="title-4"/>
+                <Label text="Errores de compilación" styleClass="title-4"/>
+                <TextArea fx:id="panelErrores"
+                          prefHeight="150"
+                          editable="false"
+                          style="-fx-font-family: 'Consolas'; -fx-font-size: 13px;"
+                          promptText="Los errores aparecerán aquí..."/>
+            </VBox>
 
-            <TextArea fx:id="panelErrores"
-                      prefHeight="150"
-                      editable="false"
-                      style="-fx-font-family: 'Consolas'; -fx-font-size: 13px;"
-                      promptText="Los errores aparecerán aquí..."/>
-        </VBox>
+            <VBox spacing="10" prefWidth="300">
+                <Label text="Tabla de Símbolos" styleClass="title-4"
+                       maxWidth="Infinity" alignment="CENTER"/>
+
+                <TableView fx:id="tablaSimbolos" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colLexema" text="Lexema" prefWidth="140"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="No data"/>
+                    </placeholder>
+                </TableView>
+            </VBox>
+
+        </HBox>
     </center>
-
 </BorderPane>
