@@ -55,10 +55,11 @@
 
                 <TableView fx:id="tablaSimbolos" VBox.vgrow="ALWAYS">
                     <columns>
-                        <TableColumn fx:id="colLexema" text="Lexema" prefWidth="140"/>
+                        <TableColumn fx:id="colSegmento" text="Segmento" prefWidth="140"/>
+                        <TableColumn fx:id="colTipo"   text="Tipo"   prefWidth="140"/>
                     </columns>
                     <placeholder>
-                        <Label text="No data"/>
+                        <Label text="Sin datos aún"/>
                     </placeholder>
                 </TableView>
             </VBox>

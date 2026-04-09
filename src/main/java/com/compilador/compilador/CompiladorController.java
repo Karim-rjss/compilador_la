@@ -1,22 +1,31 @@
 package com.compilador.compilador;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import org.fxmisc.richtext.CodeArea;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
+import java.io.IOException;
 
 public class CompiladorController {
 
     @FXML public CodeArea editorCodigo;
     @FXML public TextArea panelErrores;
-    @FXML public TableView<String> tablaSimbolos;
+    @FXML public TableView<filaTabla> tablaSimbolos;
+    @FXML public TableColumn<filaTabla, String> colSegmento;
+    @FXML public TableColumn<filaTabla, String> colTipo;
 
     @FXML
     public void initialize() {
+        colSegmento.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getSegmento()));
+        colTipo.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getTipo()));
+
         editorCodigo.textProperty().addListener((obs, oldText, newText) -> {
             if (aplicandoEstilo) return;
             Platform.runLater(() -> {
@@ -84,7 +93,21 @@ public class CompiladorController {
 
     @FXML
     public void compilar() {
-        panelErrores.setText("Compilando...");
+        tablaDeSimbolos tabsim = new tablaDeSimbolos();
+        try {
+            tabsim.crearTabla(palabraReservadas);
+            String[] entradas = tabsim.leerTabla();
+
+            ObservableList<filaTabla> data = FXCollections.observableArrayList();
+            for (int i=0; i<entradas.length; i++){
+                data.add(new filaTabla(entradas[i], "Palabra Reservada"));
+            }
+            tablaSimbolos.setItems(data);
+            panelErrores.setText("Tabla cargada correctamente.");
+
+        } catch (IOException e) {
+            panelErrores.setText("Error: " + e.getMessage());
+        }
     }
 
     @FXML
