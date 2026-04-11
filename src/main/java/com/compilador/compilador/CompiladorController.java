@@ -12,6 +12,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class CompiladorController {
 
@@ -23,6 +24,7 @@ public class CompiladorController {
 
     @FXML
     public void initialize() {
+        tablaSimbolos.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         colSegmento.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getSegmento()));
         colTipo.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getTipo()));
 
@@ -62,6 +64,10 @@ public class CompiladorController {
             "sino","mientras","para","imprime","leer","funcion","retorna",
             "verdadero","falso"};
 
+    public String[] error = {
+            "ERROR", "error", "Error"
+    };
+
     public boolean comparador(String palabra){
         for (int i=0; i<palabraReservadas.length; i++){
             if (palabraReservadas[i].equals(palabra))
@@ -85,26 +91,32 @@ public class CompiladorController {
                 if (comparador(palabra)){
                     editorCodigo.setStyle(inicio, i, java.util.Collections.singleton("keyword"));
                 }
-            } else {
+            }
+
+            else {
                 i++;
             }
         }
     }
 
     @FXML
-    public void compilar() {
+    public void compilarButton() {
         tablaDeSimbolos tabsim = new tablaDeSimbolos();
         try {
             tabsim.crearTabla(palabraReservadas);
-            String[] entradas = tabsim.leerTabla();
-
-            ObservableList<filaTabla> data = FXCollections.observableArrayList();
-            for (int i=0; i<entradas.length; i++){
-                data.add(new filaTabla(entradas[i], "Palabra Reservada"));
+            tokenizador tok = new tokenizador(palabraReservadas);
+            ArrayList<String[]> tokens = tok.token(editorCodigo.getText());
+            ObservableList<filaTabla> datos = FXCollections.observableArrayList();
+            //toma los tokens del editor
+            for (int i=0; i<tokens.size();i++){
+                datos.add(new filaTabla(tokens.get(i)[0], tokens.get(i)[1]));
             }
-            tablaSimbolos.setItems(data);
-            panelErrores.setText("Tabla cargada correctamente.");
+            tablaSimbolos.setItems(datos);
+            panelErrores.setText("Compilación exitosa. Tokens generados: " + tokens.size());
 
+            movTokenDat(tokens);
+
+            error(tokens); //llamar al error
         } catch (IOException e) {
             panelErrores.setText("Error: " + e.getMessage());
         }
@@ -113,6 +125,30 @@ public class CompiladorController {
     @FXML
     public void salir() {
         System.exit(0);
+    }
+
+    public void movTokenDat(ArrayList<String[]> tokens) {
+        tablaDeSimbolos tabsim = new tablaDeSimbolos();
+        for (int i = 0; i < tokens.size(); i++) {
+            String segmento = tokens.get(i)[0];
+            String token = tokens.get(i)[1];
+            try{
+                tabsim.agregarToken(segmento, token);
+            } catch (IOException e) {
+                panelErrores.setText("Error al agregar token: " + e.getMessage());
+            }
+
+        }
+    }
+
+    public void error(ArrayList<String[]> tokens){
+        StringBuilder error = new StringBuilder();
+        for (int i = 0; i < tokens.size(); i++) {
+            if (tokens.get(i)[1].equals("Desconocido")) {
+                error.append("Error: Token desconocido '").append(tokens.get(i)[0]).append("'\n");
+            }
+        }
+        panelErrores.setText(error.toString());
     }
 
 

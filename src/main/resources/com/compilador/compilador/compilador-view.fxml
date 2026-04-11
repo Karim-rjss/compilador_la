@@ -29,24 +29,14 @@
                 <Label text="Editor KScript" styleClass="title-2"
                        maxWidth="Infinity" alignment="CENTER"/>
 
-                <CodeArea fx:id="editorCodigo"
-                          VBox.vgrow="ALWAYS"
-                          prefHeight="480"
-                          style="-fx-font-family: 'Consolas'; -fx-font-size: 14px;"/>
+                <CodeArea fx:id="editorCodigo" VBox.vgrow="ALWAYS" prefHeight="480" style="-fx-font-family: 'Consolas'; -fx-font-size: 14px;"/>
 
                 <HBox alignment="CENTER">
-                    <Button text="▶  Compilar"
-                            styleClass="accent"
-                            onAction="#compilar"
-                            style="-fx-font-weight: bold;"/>
+                    <Button text="Compilar" styleClass="accent" onAction="#compilarButton" style="-fx-font-weight: bold;"/>
                 </HBox>
 
                 <Label text="Errores de compilación" styleClass="title-4"/>
-                <TextArea fx:id="panelErrores"
-                          prefHeight="150"
-                          editable="false"
-                          style="-fx-font-family: 'Consolas'; -fx-font-size: 13px;"
-                          promptText="Los errores aparecerán aquí..."/>
+                <TextArea fx:id="panelErrores" prefHeight="150" editable="false" style="-fx-font-family: 'Consolas'; -fx-font-size: 13px;"/>
             </VBox>
 
             <VBox spacing="10" prefWidth="300">
@@ -55,8 +45,8 @@
 
                 <TableView fx:id="tablaSimbolos" VBox.vgrow="ALWAYS">
                     <columns>
-                        <TableColumn fx:id="colSegmento" text="Segmento" prefWidth="140"/>
-                        <TableColumn fx:id="colTipo"   text="Tipo"   prefWidth="140"/>
+                        <TableColumn fx:id="colSegmento" text="Segmento" prefWidth="150" sortable="false" reorderable="false" resizable="false"/>
+                        <TableColumn fx:id="colTipo" text="Tipo" prefWidth="150" sortable="false" reorderable="false" resizable="false"/>
                     </columns>
                     <placeholder>
                         <Label text="Sin datos aún"/>

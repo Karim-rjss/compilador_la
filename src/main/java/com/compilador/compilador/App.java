@@ -1,7 +1,6 @@
 package com.compilador.compilador;
 
 import atlantafx.base.theme.Dracula;
-import atlantafx.base.theme.NordLight;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
