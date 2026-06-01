@@ -75,9 +75,32 @@ public class tokenizador {
                 }
             }
 
+            //nuevos operadoress y sigue aanzando
             else{
-                token.add(new String[]{String.valueOf(ch), "Desconocido"});
+                String operador = String.valueOf(ch);
+
+                if (i+1<palabra.length()){
+                    String doble = String.valueOf(ch) + palabra.charAt(i+1);
+                    if (doble.equals("==") || doble.equals("!=") || doble.equals(">=") || doble.equals("<=")) {
+                        token.add(new String[]{doble, "Operador"});
+                        i += 2;
+                        continue;
+                    }
+                }
+
+                if (ch == '=' || ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+                    token.add(new String[]{operador, "Operador"});
+                } else if (ch == '>' || ch == '<') {
+                    token.add(new String[]{operador, "Operador"});
+                } else if (ch == '(' || ch == ')') {
+                    token.add(new String[]{operador, "Parentesis"});
+                } else if (ch == '{' || ch == '}') {
+                    token.add(new String[]{operador, "LlaveS"});
+                } else {
+                    token.add(new String[]{operador, "Desconocido"});
+                }
                 i++;
+
             }
 
         }
